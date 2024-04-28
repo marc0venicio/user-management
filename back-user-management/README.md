@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>
 
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
@@ -30,6 +30,21 @@
 
 ```bash
 $ npm install
+```
+
+## Postgres
+
+Install docker and run the command:
+
+```bash
+docker run --name clean-architecture-db -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
+```
+
+run migration
+
+```bash
+npm run typeorm:generate:win -n init
+npm run typeorm:run:win
 ```
 
 ## Running the app
