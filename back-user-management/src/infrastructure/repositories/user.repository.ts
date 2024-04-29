@@ -11,6 +11,7 @@ export class DatabaseUserRepository implements UserRepository {
     @InjectRepository(User)
     private readonly userEntityRepository: Repository<User>,
   ) {}
+
   async updateRefreshToken(username: string, refreshToken: string): Promise<void> {
     await this.userEntityRepository.update(
       {
@@ -19,6 +20,7 @@ export class DatabaseUserRepository implements UserRepository {
       { hach_refresh_token: refreshToken },
     );
   }
+
   async getUserByUsername(username: string): Promise<UserM> {
     const adminUserEntity = await this.userEntityRepository.findOne({
       where: {
@@ -30,6 +32,7 @@ export class DatabaseUserRepository implements UserRepository {
     }
     return this.toUser(adminUserEntity);
   }
+
   async updateLastLogin(username: string): Promise<void> {
     await this.userEntityRepository.update(
       {
@@ -37,6 +40,35 @@ export class DatabaseUserRepository implements UserRepository {
       },
       { last_login: () => 'CURRENT_TIMESTAMP' },
     );
+  }
+  
+  async updateContent(id: number): Promise<void> {
+    await this.userEntityRepository.update(
+      {
+        id: id,
+      },
+      { last_login: () => 'CURRENT_TIMESTAMP' },
+    );
+  }
+
+  async findAll(): Promise<UserM[]> {
+    const usersEntity = await this.userEntityRepository.find();
+    return usersEntity.map((userEntity) => this.toUser(userEntity));
+  }
+
+  async findById(id: number): Promise<UserM> {
+    const userEntity = await this.userEntityRepository.findOneOrFail(id);
+    return this.toUser(userEntity);
+  }
+
+  async insert(user: UserM): Promise<UserM> {
+    const todoEntity = this.toUserEntity(user);
+    const result = await this.userEntityRepository.insert(todoEntity);
+    return this.toUser(result.generatedMaps[0] as User);
+  }
+
+  async deleteById(id: number): Promise<void> {
+    await this.userEntityRepository.delete({ id: id });
   }
 
   private toUser(adminUserEntity: User): UserM {

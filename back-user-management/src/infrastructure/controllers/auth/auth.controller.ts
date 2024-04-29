@@ -35,11 +35,10 @@ export class AuthController {
   ) {}
 
   @Post('login')
-  @UseGuards(LoginGuard)
-  @ApiBearerAuth()
   @ApiBody({ type: AuthLoginDto })
   @ApiOperation({ description: 'login' })
   async login(@Body() auth: AuthLoginDto, @Request() request: any) {
+    console.log(request)
     const accessTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtToken(auth.username);
     const refreshTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtRefreshToken(auth.username);
     request.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);

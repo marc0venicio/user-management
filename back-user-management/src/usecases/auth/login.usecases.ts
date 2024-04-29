@@ -25,6 +25,7 @@ export class LoginUseCases {
   async getCookieWithJwtRefreshToken(username: string) {
     this.logger.log('LoginUseCases execute', `The user ${username} have been logged.`);
     const payload: IJwtServicePayload = { username: username };
+    console.log(payload);
     const secret = this.jwtConfig.getJwtRefreshSecret();
     const expiresIn = this.jwtConfig.getJwtRefreshExpirationTime() + 's';
     const token = this.jwtTokenService.createToken(payload, secret, expiresIn);
