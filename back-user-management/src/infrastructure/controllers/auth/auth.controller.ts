@@ -44,7 +44,7 @@ export class AuthController {
     const accessTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtToken(auth.username);
     const refreshTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtRefreshToken(auth.username);
     request.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
-    return 'Login successful';
+    return {"message": 'Login successful', "token": accessTokenCookie};
   }
 
   @Post('logout')
