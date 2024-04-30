@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, Index, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { hashSync } from 'bcrypt';
+import { Entity, Column, PrimaryGeneratedColumn, Index, CreateDateColumn, UpdateDateColumn, BeforeInsert } from 'typeorm';
 
 @Entity()
 export class User {
@@ -26,4 +27,9 @@ export class User {
 
   @Column('varchar', { nullable: true })
   hach_refresh_token: string;
+
+  @BeforeInsert()
+  hashPassword() {
+    this.password = hashSync(this.password, 10);
+  }
 }

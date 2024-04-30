@@ -6,11 +6,15 @@ export class UpdateUserDto {
   @IsNotEmpty()
   @IsNumber()
   readonly id: number;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  readonly username: string;
   
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsBoolean()
-  readonly isDone: boolean;
+  readonly active: boolean;
 }
 
 export class AddUserDto {

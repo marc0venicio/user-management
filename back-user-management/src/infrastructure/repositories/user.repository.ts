@@ -42,12 +42,16 @@ export class DatabaseUserRepository implements UserRepository {
     );
   }
   
-  async updateContent(id: number): Promise<void> {
+  async updateContent(id: number, username: string, active: boolean): Promise<void> {
     await this.userEntityRepository.update(
       {
         id: id,
       },
-      { last_login: () => 'CURRENT_TIMESTAMP' },
+      { 
+        username: username,
+        active: active,
+        last_login: () => 'CURRENT_TIMESTAMP' 
+      },
     );
   }
 

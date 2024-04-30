@@ -42,9 +42,9 @@ export class UserController {
 
   @Get('users')
   @ApiResponseType(UserPresenter, true)
-  // @ApiBearerAuth()
-  // @UseGuards(JwtAuthGuard)
-  // @ApiResponseType(UserPresenter, true)
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiResponseType(UserPresenter, true)
   async getTodos() {
     const users = await this.getAllUsersUsecaseProxy.getInstance().execute();
     return users.map((user) => new UserPresenter(user));
@@ -56,8 +56,8 @@ export class UserController {
   // @UseGuards(JwtAuthGuard)
   // @ApiResponseType(UserPresenter, true)
   async updateTodo(@Body() updateUserDto: UpdateUserDto) {
-    const { id, isDone } = updateUserDto;
-    await this.updateUserUsecaseProxy.getInstance().execute(id, isDone);
+    const { id, active, username } = updateUserDto;
+    await this.updateUserUsecaseProxy.getInstance().execute(id, username, active);
     return 'success';
   }
 

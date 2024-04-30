@@ -6,7 +6,7 @@ export interface UserRepository {
   deleteById(id: number): Promise<void>;
   findAll(): Promise<UserM[]>;
   findById(id: number): Promise<UserM>;
-  updateContent(id: number): Promise<void>;
+  updateContent(id: number, username: string, active: boolean): Promise<void>;
   updateLastLogin(username: string): Promise<void>;
   updateRefreshToken(username: string, refreshToken: string): Promise<void>;
 }

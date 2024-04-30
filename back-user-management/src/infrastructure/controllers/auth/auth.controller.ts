@@ -15,6 +15,7 @@ import { IsAuthenticatedUseCases } from '../../../usecases/auth/isAuthenticated.
 import { LogoutUseCases } from '../../../usecases/auth/logout.usecases';
 
 import { ApiResponseType } from '../../common/swagger/response.decorator';
+import { LocalStrategy } from 'src/infrastructure/common/strategies/local.strategy';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -35,6 +36,7 @@ export class AuthController {
   ) {}
 
   @Post('login')
+  @UseGuards(LocalStrategy)
   @ApiBody({ type: AuthLoginDto })
   @ApiOperation({ description: 'login' })
   async login(@Body() auth: AuthLoginDto, @Request() request: any) {
