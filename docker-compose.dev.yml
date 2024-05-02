@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    container_name: indt-backend
+    command: npm run start:dev
+    volumes:
+      - ./backend:/app/backend
+      - ./backend/database:/backend/app/database
+      - ./backend/env:/backend/app/env
+      - /backend/node_modules
+    ports:
+      - '3000:3000'
+    restart: always
+    environment:
+      - NODE_ENV=development
+      - DB_USER=postgres
+      - DB_PASS=dbpassword
+      - DB_HOST=postgres
+      - DB_NAME=accounting
+      - DB_URL=postgresql://postgres:dbpassword@postgres:5432/accounting
+      - JWT_SECRET=secret
+    depends_on:
+      - postgres
+  client:
+    build: ./client
+    container_name: indt-frontend
+    command: npm run dev
+    ports:
+      - '8080:8080'
+    expose:
+      - '5173'
+    volumes:
+      - ./client:/app/client
+  postgres:
+    container_name: indt-database
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: dbpassword
+      POSTGRES_DB: accounting
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

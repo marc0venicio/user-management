@@ -1,1 +1,0 @@
-export const USER_IS_LOGIN = 'LOGIN/USER_TOKEN'
