@@ -8,7 +8,7 @@ export const Login = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        email: '',
+        username: '',
         password: ''
     })
     const isAuthenticated = useAppSelector(state => state.userAuthentication.isAuthenticated);
@@ -22,7 +22,7 @@ export const Login = () => {
 
     const logIn = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/api/auth/login', formData, {
+            const response = await axios.post('http://localhost:3000/api_v1/auth/login', formData, {
                 withCredentials: true,
                 headers: {
                     'Access-Control-Allow-Credentials': true
@@ -30,7 +30,7 @@ export const Login = () => {
             })
             if (response.status >= 200) {
                 dispatch(authenticateUser(formData));
-                navigate('/invoices');
+                navigate('/users');
             }
         } catch (error) {
             console.log(error)
@@ -38,7 +38,7 @@ export const Login = () => {
     }
 
     if (isAuthenticated) {
-        return <Navigate to="/invoices" />;
+        return <Navigate to="/users" />;
     }
 
     return (
@@ -49,7 +49,7 @@ export const Login = () => {
                         <label className="label">
                             <span className="label-text">Email</span>
                         </label>
-                        <input onChange={e => setFieldValue(e.target.name, e.target.value)} name="email" type="email" placeholder="email" className="input input-bordered" required />
+                        <input onChange={e => setFieldValue(e.target.name, e.target.value)} name="username" type="text" placeholder="username" className="input input-bordered" required />
                     </div>
                     <div className="form-control">
                         <label className="label">

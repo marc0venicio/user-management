@@ -12,7 +12,7 @@ const initialState: UserAuthenticationState = {
 const checkUserIsAuthenticated = createAsyncThunk(
   'userAuthentication/checkUserIsAuthenticated',
   async () => {
-    const response = await axios.get('http://localhost:3000/api/auth/me', {
+    const response = await axios.get('http://localhost:3000/api_v1/auth/is_authenticated', {
       withCredentials: true,
     });
 
@@ -26,8 +26,8 @@ const checkUserIsAuthenticated = createAsyncThunk(
 
 const authenticateUser = createAsyncThunk(
   'userAuthentication/authenticateUser',
-  async (formData: { email: string, password: string }) => {
-    const response = await axios.post('http://localhost:3000/api/auth/login', formData, {
+  async (formData: { username: string, password: string }) => {
+    const response = await axios.post('http://localhost:3000/api_v1/auth/login', formData, {
       withCredentials: true,
       headers: {
         'Access-Control-Allow-Credentials': true

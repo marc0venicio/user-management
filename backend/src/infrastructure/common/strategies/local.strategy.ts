@@ -16,7 +16,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     private readonly logger: LoggerService,
     private readonly exceptionService: ExceptionsService,
   ) {
-    super();
+    super({usernameField: 'username'});
   }
 
   async validate(username: string, password: string) {
@@ -25,10 +25,12 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       this.exceptionService.UnauthorizedException();
     }
     const user = await this.loginUsecaseProxy.getInstance().validateUserForLocalStragtegy(username, password);
+    // console.log(user)
     if (!user) {
       this.logger.warn('LocalStrategy', `Invalid username or password`);
       this.exceptionService.UnauthorizedException({ message: 'Invalid username or password.' });
     }
+    console.log(user);
     return user;
   }
 }

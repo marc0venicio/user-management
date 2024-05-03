@@ -16,6 +16,7 @@ import { LogoutUseCases } from '../../../usecases/auth/logout.usecases';
 
 import { ApiResponseType } from '../../common/swagger/response.decorator';
 import { LocalStrategy } from 'src/infrastructure/common/strategies/local.strategy';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -36,14 +37,14 @@ export class AuthController {
   ) {}
 
   @Post('login')
-  @UseGuards(LocalStrategy)
+  @UseGuards(AuthGuard('local'))
+  @ApiBearerAuth()
   @ApiBody({ type: AuthLoginDto })
   @ApiOperation({ description: 'login' })
   async login(@Body() auth: AuthLoginDto, @Request() request: any) {
-    console.log(request)
     const accessTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtToken(auth.username);
     const refreshTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtRefreshToken(auth.username);
-    // request.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
+    request.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
     return {"message": 'Login successful', "token": accessTokenCookie};
   }
 

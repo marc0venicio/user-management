@@ -6,6 +6,10 @@ export class addUser1648623447697 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "public"."user" ("id" SERIAL NOT NULL, "username" character varying NOT NULL, "password" text NOT NULL, "active" boolean NOT NULL DEFAULT true, "createdate" TIMESTAMP NOT NULL DEFAULT now(), "updateddate" TIMESTAMP NOT NULL DEFAULT now(), "last_login" TIMESTAMP, "hach_refresh_token" character varying, CONSTRAINT "UQ_b67337b7f8aa8406e936c2ff754" UNIQUE ("username"), CONSTRAINT "PK_03b91d2b8321aa7ba32257dc321" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE UNIQUE INDEX "IDX_b67337b7f8aa8406e936c2ff75" ON "public"."user" ("username") `);
+        await queryRunner.query(`
+            INSERT INTO "public"."user" ("username", "password", "active", "createdate", "updateddate", "last_login", "hach_refresh_token") 
+            VALUES ('admin', 'password', true, now(), now(), null, null);
+        `);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

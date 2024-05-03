@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Inject, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiExtraModels, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy';
 import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module';
@@ -35,7 +35,7 @@ export class UserController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiResponseType(UserPresenter, false)
-  async getTodo(@Query('id', ParseIntPipe) id: number) {
+  async getUser(@Query('id', ParseIntPipe) id: number) {
     const user = await this.getUserUsecaseProxy.getInstance().execute(id);
     return new UserPresenter(user);
   }
@@ -45,28 +45,28 @@ export class UserController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiResponseType(UserPresenter, true)
-  async getTodos() {
+  async getUsers() {
     const users = await this.getAllUsersUsecaseProxy.getInstance().execute();
     return users.map((user) => new UserPresenter(user));
   }
 
-  @Put('user')
+  @Put('user/:id')
   @ApiResponseType(UserPresenter, true)
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiResponseType(UserPresenter, true)
-  async updateTodo(@Body() updateUserDto: UpdateUserDto) {
+  async updateUser(@Body() updateUserDto: UpdateUserDto) {
     const { id, active, username } = updateUserDto;
     await this.updateUserUsecaseProxy.getInstance().execute(id, username, active);
     return 'success';
   }
 
-  @Delete('user')
+  @Delete('user/:id')
   @ApiResponseType(UserPresenter, true)
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiResponseType(UserPresenter, true)
-  async deleteTodo(@Query('id', ParseIntPipe) id: number) {
+  async deleteUser(@Param('id') id: number) {
     await this.deleteUserUsecaseProxy.getInstance().execute(id);
     return 'success';
   }
@@ -78,7 +78,7 @@ export class UserController {
   @ApiOperation({ description: 'is_authenticated' })
   async addUser(@Body() addUserDto: AddUserDto) {
 
-    const { username, password, email } = addUserDto;
+    const { username, password } = addUserDto;
 
     const todoCreated = await this.addUserUsecaseProxy.getInstance().execute({
       username: username, 

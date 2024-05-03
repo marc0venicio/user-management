@@ -28,6 +28,6 @@ export class AddUserDto {
   
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  readonly email: string;
-  
+  @IsBoolean()
+  readonly active: boolean;
 }

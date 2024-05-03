@@ -9,7 +9,7 @@ export const ProtectedRoute: React.FC<{
     const isAuthenticated = useAppSelector(state => state.userAuthentication.isAuthenticated);
 
     return isAuthenticated ?
-        <div className='bg-white col-span-10 p-4 rounded-3xl h-1/3'>
+        <div className='bg-white col-span-10 p-4 '>
             <MenuBar />
             <div className="divider"></div>
             {children}

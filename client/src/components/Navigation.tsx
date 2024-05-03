@@ -18,20 +18,8 @@ export const Navigation = () => {
 
     const menuItems = [,
         {
-            name: 'Invoices',
-            path: '/invoices'
-        },
-        {
-            name: 'Bills',
-            path: '/bills'
-        },
-        {
-            name: 'Expenses',
-            path: '/expenses'
-        },
-        {
-            name: 'Reports',
-            path: '/reports'
+            name: 'Users',
+            path: '/users'
         }
     ]
     return <div className="flex flex-col h-full col-span-2 items-center text-slate-600 text-xl px-10 py-5">
@@ -41,15 +29,22 @@ export const Navigation = () => {
         <div className="my-10 self-start w-full">
             <div className="justify-self-start">Menu</div>
             <div className="flex flex-col w-full p-4">
-                <Link to="/invoices" className="flex w-full items-center justify-between p-2 hover:bg-primary-500 rounded-lg">
+                <Link to="/users" className="flex w-full items-center justify-between p-2 hover:bg-primary-500 rounded-lg">
                     <span>Home</span>
                 </Link>
                 {menuItems.map((item, index) => {
-                    return <Link to={item.path} key={index} className={`flex w-full items-center p-2 hover:bg-primary-500 rounded-lg ${currentPath === item?.name ? 'font-bold' : ''}`}>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                        <span className="ml-6">{item.name}</span>
-                    </Link>
+                    return item ? (
+                        <Link
+                            to={item.path}
+                            key={index}
+                            className={`flex w-full items-center p-2 hover:bg-primary-500 rounded-lg ${currentPath === item.name ? 'font-bold' : ''}`}
+                        >
+                            <FontAwesomeIcon icon={faChevronRight} />
+                            <span className="ml-6">{item.name}</span>
+                        </Link>
+                    ) : null;
                 })}
+
             </div>
         </div>
 

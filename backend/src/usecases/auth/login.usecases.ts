@@ -35,11 +35,14 @@ export class LoginUseCases {
   }
 
   async validateUserForLocalStragtegy(username: string, pass: string) {
+    console.log("validate")
     const user = await this.userRepository.getUserByUsername(username);
+    console.log(user)
     if (!user) {
       return null;
     }
-    const match = await this.bcryptService.compare(pass, user.password);
+    const match = pass == user.password;
+    console.log(match)
     if (user && match) {
       await this.updateLoginTime(user.username);
       const { password, ...result } = user;

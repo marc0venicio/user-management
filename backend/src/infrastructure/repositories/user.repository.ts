@@ -80,6 +80,7 @@ export class DatabaseUserRepository implements UserRepository {
 
     adminUser.id = adminUserEntity.id;
     adminUser.username = adminUserEntity.username;
+    adminUser.active = adminUserEntity.active;
     adminUser.password = adminUserEntity.password;
     adminUser.createDate = adminUserEntity.createdate;
     adminUser.updatedDate = adminUserEntity.updateddate;

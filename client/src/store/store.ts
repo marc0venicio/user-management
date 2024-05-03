@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userAuthenticationReducer from '../features/user-authentication';
-import { userInvoicesReducer } from '../features/user-invoices';
+import { userReducer } from '../features/user-users';
 
 export const store = configureStore({
   reducer: {
     userAuthentication: userAuthenticationReducer,
-    userInvoices: userInvoicesReducer,
+    users: userReducer,
   },
 });
 
